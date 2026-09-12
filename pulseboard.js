@@ -2,21 +2,25 @@ const habits = [
     {id: 0, name: "Drink water", 
         category: "Health", 
         targetPerDay: 5, 
+        loggedToday: 0,
         unit: "glasses"},
     {id: 1, 
         name: "Wash hands", 
         category: "Productivity", 
         targetPerDay: 8, 
+        loggedToday: 0,
         unit: "times"},
     {id: 2, 
         name: "Pray", 
         category: "Mindfulness", 
         targetPerDay: 6, 
+        loggedToday: 0,
         unit: "times"},
     {id: 3, 
         name: "Read books", 
         category: "Others", 
         targetPerDay: 4, 
+        loggedToday: 0,
         unit: "pages"}
 ]
 
@@ -48,7 +52,7 @@ console.log(averageTargetPerDay)
 function renderHabits (){
     const habitContainer = document.getElementById("habit-list");
     habitContainer.innerHTML = habits.map(habit => 
-        `<div>${habit.name} (${habit.category}) — Target: ${habit.targetPerDay} ${habit.unit} ${habit.loggedToday >= habit.targetPerDay ? '✅' : ''}<button class="log-btn" data-id="${habit.id}">+1</button></div>`
+        `<div>${habit.name} (${habit.category}) — Target: ${habit.targetPerDay} ${habit.unit} ${habit.loggedToday >= habit.targetPerDay ? '✅' : ''} ${habit.loggedToday >= habit.targetPerDay ? 0 : habit.targetPerDay - habit.loggedToday}  <button class="log-btn" data-id="${habit.id}">+1</button></div>`
     ).join('');
     
 }
@@ -56,9 +60,6 @@ function renderHabits (){
 renderHabits();
 
 
-document.getElementById("test-btn").addEventListener("click", () => {
-  console.log("Button clicked!");
-});
 
 const habitContainer = document.getElementById("habit-list");
 
