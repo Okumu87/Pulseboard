@@ -1,4 +1,4 @@
-const habits = [
+const defaultHabits = [
     {id: 0, name: "Drink water", 
         category: "Health", 
         targetPerDay: 5, 
@@ -25,27 +25,45 @@ const habits = [
 ]
 
 
-const habitNames = habits.map(habit => habit.name);
+// const habitNames = habits.map(habit => habit.name);
 
-console.log(habitNames)
+// console.log(habitNames)
 
-const mindfullnessHabits = habits.filter(habit=>habit.category === "Mindfulness");
+// const mindfullnessHabits = habits.filter(habit=>habit.category === "Mindfulness");
 
-console.log(mindfullnessHabits)
+// console.log(mindfullnessHabits)
 
-const habitById = habits.find(habit => habit.id === 3);
+// const habitById = habits.find(habit => habit.id === 3);
 
-console.log(habitById) 
+// console.log(habitById) 
 
-const totalDailyTarget = habits.reduce((total, habit) => total + habit.targetPerDay, 0);
+// const totalDailyTarget = habits.reduce((total, habit) => total + habit.targetPerDay, 0);
 
-console.log(totalDailyTarget)
+// console.log(totalDailyTarget)
 
 
-const healthHabits = habits.filter(habit => habit.category === "Health");
-const averageTargetPerDay = healthHabits.reduce((total, habit) => total + habit.targetPerDay, 0) / healthHabits.length;
+// const healthHabits = habits.filter(habit => habit.category === "Health");
+// const averageTargetPerDay = healthHabits.reduce((total, habit) => total + habit.targetPerDay, 0) / healthHabits.length;
 
-console.log(averageTargetPerDay)
+// console.log(averageTargetPerDay)
+
+
+  // local storage
+
+    function saveHabits(){
+        localStorage.setItem('habits', JSON.stringify(habits));
+    }
+
+    function loadHabits (){
+        const saved = localStorage.getItem('habits');
+        if(saved){
+            return JSON.parse(saved);
+        }else{
+            return defaultHabits;
+        }
+    }
+
+    const habits = loadHabits();
 
 // functions 
 
@@ -71,6 +89,11 @@ habitContainer.addEventListener("click", (event) => {
               if(habit){
                   habit.loggedToday = (habit.loggedToday || 0) + 1;
                   renderHabits();
+                    saveHabits();
+                 
               }
         }
+
     });
+
+  
