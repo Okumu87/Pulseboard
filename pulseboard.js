@@ -96,4 +96,25 @@ habitContainer.addEventListener("click", (event) => {
 
     });
 
-  
+//   form
+
+const habitForm = document.getElementById("add-habit-form");;
+
+habitForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+ const input = document.getElementById("habit-name-input");
+ const name = input.value.trim();
+ if(!name) return;
+ const newHabit = {
+    id: Date.now(),
+    name: name,
+    category: "Others",
+    targetPerDay: 1,
+    loggedToday: 0,
+    unit: "times"
+ };
+ habits.push(newHabit);
+ renderHabits();
+ saveHabits();
+ input.value = "";
+});
