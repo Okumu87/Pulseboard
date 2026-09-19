@@ -63,14 +63,14 @@ const defaultHabits = [
         }
     }
 
-    const habits = loadHabits();
+    let habits = loadHabits();
 
 // functions 
 
 function renderHabits (){
     const habitContainer = document.getElementById("habit-list");
     habitContainer.innerHTML = habits.map(habit => 
-        `<div>${habit.name} (${habit.category}) — Target: ${habit.targetPerDay} ${habit.unit} ${habit.loggedToday >= habit.targetPerDay ? '✅' : ''} ${habit.loggedToday >= habit.targetPerDay ? 0 : habit.targetPerDay - habit.loggedToday}  <button class="log-btn" data-id="${habit.id}">+1</button></div>`
+        `<div>${habit.name} (${habit.category}) — Target: ${habit.targetPerDay} ${habit.unit} ${habit.loggedToday >= habit.targetPerDay ? '✅' : ''} ${habit.loggedToday >= habit.targetPerDay ? 0 : habit.targetPerDay - habit.loggedToday}  <button class="log-btn" data-id="${habit.id}">+1</button> <button class="delete-btn" data-id="${habit.id}">🗑️</button></div>`
     ).join('');
     
 }
@@ -92,6 +92,11 @@ habitContainer.addEventListener("click", (event) => {
                     saveHabits();
                  
               }
+        }else if(event.target.classList.contains("delete-btn")){
+            const habitId = Number(event.target.dataset.id);
+            habits = habits.filter(habit => habit.id !== habitId);
+            renderHabits();
+            saveHabits();
         }
 
     });
