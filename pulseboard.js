@@ -24,6 +24,8 @@ const defaultHabits = [
         unit: "pages"}
 ]
 
+let currentWeather = null;
+
 
 // const habitNames = habits.map(habit => habit.name);
 
@@ -68,11 +70,19 @@ const defaultHabits = [
 // functions 
 
 function renderHabits (){
-    const habitContainer = document.getElementById("habit-list");
-    habitContainer.innerHTML = habits.map(habit => 
+
+     const habitContainer = document.getElementById("habit-list");
+
+        const weatherHtml = currentWeather 
+        ? `<p>Today's weather: ${currentWeather.temperature_2m}°C</p>` 
+        : `<p>Loading weather...</p>`;
+ 
+
+    habitHtml = habits.map(habit => 
         `<div>${habit.name} (${habit.category}) — Target: ${habit.targetPerDay} ${habit.unit} ${habit.loggedToday >= habit.targetPerDay ? '✅' : ''} ${habit.loggedToday >= habit.targetPerDay ? 0 : habit.targetPerDay - habit.loggedToday}  <button class="log-btn" data-id="${habit.id}">+1</button> <button class="delete-btn" data-id="${habit.id}">🗑️</button></div>`
     ).join('');
-    
+
+ habitContainer.innerHTML = weatherHtml + habitHtml;
 }
 
 renderHabits();
@@ -123,3 +133,25 @@ habitForm.addEventListener("submit", (event) => {
  saveHabits();
  input.value = "";
 });
+
+// async 
+
+async function getWeather (){
+    try{
+        const urlWeather = await fetch ("https://api.open-meteo.com/v1/forecast?latitude=52.37&longitude=4.89&current=temperature_2m,weathercode");
+
+        if (!urlWeather.ok){
+            throw new Error(`HTTP error! status: ${urlWeather.status}`);
+        }
+
+        const data = await urlWeather.json();
+
+        currentWeather = data;
+        console.log(data);
+    }catch(error){
+        console.error("Error fetching weather data:", error);
+    }
+  
+}
+
+getWeather();
