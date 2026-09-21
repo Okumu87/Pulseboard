@@ -74,7 +74,7 @@ function renderHabits (){
      const habitContainer = document.getElementById("habit-list");
 
         const weatherHtml = currentWeather 
-        ? `<p>Today's weather: ${currentWeather.temperature_2m}°C</p>` 
+        ? `<p>Today's weather: ${currentWeather.temperature_2m}°C, ${getWeatherDescription(currentWeather.weathercode)}</p>` 
         : `<p>Loading weather...</p>`;
  
 
@@ -146,7 +146,8 @@ async function getWeather (){
 
         const data = await urlWeather.json();
 
-        currentWeather = data;
+        currentWeather = data.current;
+        renderHabits();
         console.log(data);
     }catch(error){
         console.error("Error fetching weather data:", error);
@@ -155,3 +156,28 @@ async function getWeather (){
 }
 
 getWeather();
+
+
+function getWeatherDescription(code) {
+   if(code === 0){
+    return "Clear sky";
+   }
+   else if(code >= 1 && code <= 3){
+    return "Partly cloudy";
+   }
+   else if(code === 45 || code === 48){
+    return "Fog";
+   }
+   else if(code >= 51 && code <= 67){
+    return "Drizzle";
+   }
+   else if(code >= 71 && code <= 86){
+    return "Rain";
+   }
+   else if(code >= 95){
+    return "Thunderstorm";
+   }
+   else{
+    return "Unknown weather";
+   }
+}
