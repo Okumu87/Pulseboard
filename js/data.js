@@ -42,3 +42,7 @@ const defaultHabits = [
     }
 
     export let habits = loadHabits();
+
+    export function deleteHabit(habitId){
+        habits = habits.filter(habit => habit.id !== habitId)
+    }
