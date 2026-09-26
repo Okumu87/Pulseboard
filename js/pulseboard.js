@@ -52,3 +52,10 @@ habitForm.addEventListener("submit", (event) => {
 });
 
 
+  const searchInput = document.getElementById('search-input');
+
+
+
+    searchInput.addEventListener('input', (event)=>{
+        renderHabits(event.target.value)
+    })
