@@ -51,11 +51,22 @@ habitForm.addEventListener("submit", (event) => {
  input.value = "";
 });
 
+const debounce = (func, delay) => {
+    let timeoutId;
 
-  const searchInput = document.getElementById('search-input');
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    };
+};
 
 
+const searchInput = document.getElementById('search-input');
+
+const debouncedRender = debounce(renderHabits, 300)
 
     searchInput.addEventListener('input', (event)=>{
-        renderHabits(event.target.value)
+      debouncedRender(event. target.value)
     })
